@@ -16,6 +16,7 @@ type Service interface {
 	ViewSorted() (repo.DataBase, error)
 	ViewUnFinished() (repo.DataBase, error)
 	ViewUnPlayed() (repo.DataBase, error)
+	ViewFinished() (repo.DataBase, error)
 	FindByTitle(title string) (entities.Game, error)
 	DeleteGame(title string) error
 	UpdateGame(title string, g entities.Game) error
@@ -67,7 +68,7 @@ func (gme GameHandler) GetAllGames(w http.ResponseWriter, r *http.Request) {
 }
 
 func (gme GameHandler) GetSortedGames(w http.ResponseWriter, r *http.Request) {
-	gmeDB, err := gme.Serv.ViewAll()
+	gmeDB, err := gme.Serv.ViewSorted()
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -81,7 +82,7 @@ func (gme GameHandler) GetSortedGames(w http.ResponseWriter, r *http.Request) {
 }
 
 func (gme GameHandler) GetUnfinishedGames(w http.ResponseWriter, r *http.Request) {
-	gmeDB, err := gme.Serv.ViewAll()
+	gmeDB, err := gme.Serv.ViewUnFinished()
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -95,7 +96,7 @@ func (gme GameHandler) GetUnfinishedGames(w http.ResponseWriter, r *http.Request
 }
 
 func (gme GameHandler) GetUnplayedGames(w http.ResponseWriter, r *http.Request) {
-	gmeDB, err := gme.Serv.ViewAll()
+	gmeDB, err := gme.Serv.ViewUnPlayed()
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -109,7 +110,7 @@ func (gme GameHandler) GetUnplayedGames(w http.ResponseWriter, r *http.Request) 
 }
 
 func (gme GameHandler) GetFinishedGames(w http.ResponseWriter, r *http.Request) {
-	gmeDB, err := gme.Serv.ViewAll()
+	gmeDB, err := gme.Serv.ViewFinished()
 	if err != nil {
 		w.WriteHeader(500)
 		return

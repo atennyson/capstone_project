@@ -14,6 +14,7 @@ type Repo interface {
 	ViewSorted() (repo.DataBase, error)
 	ViewUnFinished() (repo.DataBase, error)
 	ViewUnPlayed() (repo.DataBase, error)
+	ViewFinished() (repo.DataBase, error)
 	FindByTitle(title string) (entities.Game, error)
 	DeleteGame(title string) error
 	UpdateGame(title string, game entities.Game) error
@@ -51,7 +52,7 @@ func (s Service) ViewAll() (repo.DataBase, error) {
 }
 
 func (s Service) ViewSorted() (repo.DataBase, error) {
-	db, err := s.Repo.ViewAll()
+	db, err := s.Repo.ViewSorted()
 	if err != nil {
 		return db, err
 	}
@@ -60,7 +61,7 @@ func (s Service) ViewSorted() (repo.DataBase, error) {
 }
 
 func (s Service) ViewUnFinished() (repo.DataBase, error) {
-	db, err := s.Repo.ViewAll()
+	db, err := s.Repo.ViewUnFinished()
 	if err != nil {
 		return db, err
 	}
@@ -69,7 +70,16 @@ func (s Service) ViewUnFinished() (repo.DataBase, error) {
 }
 
 func (s Service) ViewUnPlayed() (repo.DataBase, error) {
-	db, err := s.Repo.ViewAll()
+	db, err := s.Repo.ViewUnPlayed()
+	if err != nil {
+		return db, err
+	}
+
+	return db, nil
+}
+
+func (s Service) ViewFinished() (repo.DataBase, error) {
+	db, err := s.Repo.ViewFinished()
 	if err != nil {
 		return db, err
 	}
